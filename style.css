@@ -8,8 +8,26 @@
   column-gap: 1rem;
 }
 
+#search-wraper {
+display: flex;
+flex-direction: row;
+gap: 10px;
+padding: 30px;
+align-items: center;
+justify-content: left;
 
-.movie-card {
+}
+
+#search-input  {
+  border:solid #413543 3px;
+  border-radius: 8px;
+  height: 25px;
+  background-color: #FFEAEA;
+  
+}
+
+
+.episode-card {
   display: flex;
   flex-direction: column;
   background-color: #FFEAEA;
@@ -39,5 +57,6 @@ padding: 7px;
   text-align: center;
   font-size: larger;
   color: black;
-  background-color: antiquewhite;
+  background-color: #413543;
+  padding: 20px;
 }

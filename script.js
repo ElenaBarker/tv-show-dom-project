@@ -1,22 +1,22 @@
 //You can edit ALL of the code here
 const allEpisodes = getAllEpisodes();
+
 function setup() {
   makePageForEpisodes(allEpisodes);
 }
-
+// Level 100
 function makePageForEpisodes(episodeList) {
   const rootElem = document.getElementById("root");
   rootElem.innerHTML = "";
-  //rootElem.textContent = `Got ${episodeList.length} episode(s)`;
 
   for (let i = 0; i < episodeList.length; i++) {
-    let movieCard = document.createElement("div");
-    movieCard.classList.add("movie-card");
-    rootElem.appendChild(movieCard);
+    let episodeCard = document.createElement("div");
+    episodeCard.classList.add("episode-card");
+    rootElem.appendChild(episodeCard);
 
     let episodeTittle = document.createElement("h2");
     episodeTittle.classList.add("episode-tittle");
-    movieCard.appendChild(episodeTittle);
+    episodeCard.appendChild(episodeTittle);
 
     let cardHeader = document.createElement("div");
     cardHeader.classList.add("card-header");
@@ -25,39 +25,38 @@ function makePageForEpisodes(episodeList) {
 
     let episodeImgContainer = document.createElement("img");
     episodeImgContainer.classList.add("episode-img-conteiner");
-    movieCard.appendChild(episodeImgContainer);
+    episodeCard.appendChild(episodeImgContainer);
     episodeImgContainer.src = episodeList[i].image["medium"];
 
     let episodeSummary = document.createElement("p");
     episodeSummary.classList.add("episode-summary");
-    movieCard.appendChild(episodeSummary);
+    episodeCard.appendChild(episodeSummary);
     episodeSummary.innerHTML = episodeList[i].summary;
   }
 
-  const inputHTML = document.getElementById("search-input");
-  console.log(inputHTML);
-  // inputHTML.episodes = episodeList;
-  inputHTML.addEventListener("keyup", searchMovie);
+  // Level 200
 
-  function searchMovie(event) {
-    let selectedMovies;
-    let searchContent = event.target.value;
-    // let allEpisodes = event.target.episodes;
-    if (searchContent == "") {
-      setup();
-    } else {
-      let searchContentInsensitive = new RegExp(searchContent, "i");
-      selectedMovies = allEpisodes.filter((episode) => {
-        if (
-          episode.name.match(searchContentInsensitive) !== null ||
-          episode.summary.match(searchContentInsensitive) !== null
-        ) {
-          console.log(episode);
-          return episode;
-        }
-      });
-      makePageForEpisodes(selectedMovies);
-    }
+  let episodesCounter = document.getElementById("episode-counter");
+
+  document
+    .getElementById("search-input")
+    .addEventListener("input", searchMovie);
+
+  function searchMovie() {
+    const searchContent = document
+      .getElementById("search-input")
+      .value.toLowerCase();
+
+    const selectedMovies = allEpisodes.filter((episode) => {
+      if (
+        episode.name.toLowerCase().includes(searchContent) ||
+        episode.summary.toLowerCase().includes(searchContent)
+      ) {
+        return episode;
+      }
+    });
+    episodesCounter.innerText = `Displaying ${selectedMovies.length} of ${allEpisodes.length}`;
+    makePageForEpisodes(selectedMovies);
   }
 }
 
