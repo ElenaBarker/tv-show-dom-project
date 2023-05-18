@@ -1,8 +1,11 @@
 //You can edit ALL of the code here
-const allEpisodes = getAllEpisodes();
+//const allEpisodes = getAllEpisodes();
 
 function setup() {
+  const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
+  searchMovie(allEpisodes);
+  selectAndDisplayEpisode(allEpisodes);
 }
 // Level 100
 function makePageForEpisodes(episodeList) {
@@ -33,31 +36,60 @@ function makePageForEpisodes(episodeList) {
     episodeCard.appendChild(episodeSummary);
     episodeSummary.innerHTML = episodeList[i].summary;
   }
+}
+// Level 200 creating Search bar
 
-  // Level 200
+function searchMovie(allEpisodes) {
+  const searchContentEl = document.getElementById("search-input");
 
-  let episodesCounter = document.getElementById("episode-counter");
-
-  document
-    .getElementById("search-input")
-    .addEventListener("input", searchMovie);
-
-  function searchMovie() {
-    const searchContent = document
-      .getElementById("search-input")
-      .value.toLowerCase();
-
+  searchContentEl.addEventListener("input", () => {
+    const searchContent = searchContentEl.value.toLowerCase();
+    //console.log(searchContent);
     const selectedMovies = allEpisodes.filter((episode) => {
-      if (
+      return (
         episode.name.toLowerCase().includes(searchContent) ||
         episode.summary.toLowerCase().includes(searchContent)
-      ) {
-        return episode;
-      }
+      );
     });
-    episodesCounter.innerText = `Displaying ${selectedMovies.length} of ${allEpisodes.length}`;
+    console.log(selectedMovies);
+
+    const numberCounter = document.getElementById("number-counter");
+    //numberCounter.innerText = selectedMovies.length;
+    numberCounter.innerText = `Displaying ${selectedMovies.length} of ${allEpisodes.length}`;
+
     makePageForEpisodes(selectedMovies);
+  });
+}
+
+//level 300 Creating a Select input
+
+//const searchWraper = document.createElement("search-wraper");
+//searchWraper.appendChild(selectEpisodes);
+
+function selectAndDisplayEpisode(episodes) {
+  const selectEpisodes = document.getElementById("select-episodes");
+  //console.log(selectEpisodes);
+  //const optionElement = document.createElement("option");
+  //optionElement.innerText = "Select an episode";
+  //selectEpisodes.appendChild(optionElement);
+  for (let i = 0; i < episodes.length; i++) {
+    let option = document.createElement("option");
+
+    selectEpisodes.appendChild(option);
+    option.value = i;
+    //console.log(option.value);
+    option.innerText = `S${episodes[i].season
+      .toString()
+      .padStart(2, "0")}E${episodes[i].number.toString().padStart(2, "0")} - ${
+      episodes[i].name
+    }`;
   }
+
+  selectEpisodes.addEventListener("change", (e) => {
+    let optionValue = e.target.value;
+    console.log("You clicked option " + e.target.value);
+    makePageForEpisodes([episodes[optionValue]]);
+  });
 }
 
 window.onload = setup;
