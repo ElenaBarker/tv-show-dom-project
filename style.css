@@ -8,6 +8,13 @@
   column-gap: 1rem;
 }
 
+#select-episodes {
+  border: solid #413543 3px;
+    border-radius: 8px;
+    height: 25px;
+    background-color: #FFEAEA;
+}
+
 #search-wraper {
 display: flex;
 flex-direction: row;
