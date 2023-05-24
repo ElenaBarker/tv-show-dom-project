@@ -2,10 +2,11 @@
 //const allEpisodes = getAllEpisodes();
 
 function setup() {
-  const allEpisodes = getAllEpisodes();
-  makePageForEpisodes(allEpisodes);
-  searchMovie(allEpisodes);
-  selectAndDisplayEpisode(allEpisodes);
+  //const allEpisodes = getAllEpisodes();
+  //makePageForEpisodes(allEpisodes);
+  //searchMovie(allEpisodes);
+  //selectAndDisplayEpisode(allEpisodes);
+  fetchAllEpisodes();
 }
 // Level 100
 function makePageForEpisodes(episodeList) {
@@ -92,4 +93,29 @@ function selectAndDisplayEpisode(episodes) {
   });
 }
 
+//level 350
+
+function fetchAllEpisodes() {
+  return fetch("https://api.tvmaze.com/shows/82/episodes")
+    .then((response) => response.json())
+    .then((data) => {
+      allEpisodes = data;
+      makePageForEpisodes(data);
+      searchMovie(data);
+      selectAndDisplayEpisode(data);
+    })
+    .catch((error) => console.log(error));
+}
 window.onload = setup;
+
+//level 400
+
+
+
+function selectAndDisplayAllShows (){
+let selectShows = document.getElementById("select-shows");
+selectShows.textContent = "Select show..."
+for (let i = 0; i < episodes.length; i++) {
+  
+}
+}
