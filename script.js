@@ -6,7 +6,8 @@ function setup() {
   //makePageForEpisodes(allEpisodes);
   //searchMovie(allEpisodes);
   //selectAndDisplayEpisode(allEpisodes);
-  fetchAllEpisodes();
+  fetchAllEpisodes(82);
+  selectAndDisplayAllShows();
 }
 // Level 100
 function makePageForEpisodes(episodeList) {
@@ -45,7 +46,6 @@ function searchMovie(allEpisodes) {
 
   searchContentEl.addEventListener("input", () => {
     const searchContent = searchContentEl.value.toLowerCase();
-    //console.log(searchContent);
     const selectedMovies = allEpisodes.filter((episode) => {
       return (
         episode.name.toLowerCase().includes(searchContent) ||
@@ -55,7 +55,6 @@ function searchMovie(allEpisodes) {
     console.log(selectedMovies);
 
     const numberCounter = document.getElementById("number-counter");
-    //numberCounter.innerText = selectedMovies.length;
     numberCounter.innerText = `Displaying ${selectedMovies.length} of ${allEpisodes.length}`;
 
     makePageForEpisodes(selectedMovies);
@@ -68,8 +67,7 @@ function searchMovie(allEpisodes) {
 //searchWraper.appendChild(selectEpisodes);
 
 function selectAndDisplayEpisode(episodes) {
-  const selectEpisodes = document.getElementById("select-episodes");
-  //console.log(selectEpisodes);
+  let selectEpisodes = document.getElementById("select-episodes");
   //const optionElement = document.createElement("option");
   //optionElement.innerText = "Select an episode";
   //selectEpisodes.appendChild(optionElement);
@@ -78,7 +76,6 @@ function selectAndDisplayEpisode(episodes) {
 
     selectEpisodes.appendChild(option);
     option.value = i;
-    //console.log(option.value);
     option.innerText = `S${episodes[i].season
       .toString()
       .padStart(2, "0")}E${episodes[i].number.toString().padStart(2, "0")} - ${
@@ -87,6 +84,7 @@ function selectAndDisplayEpisode(episodes) {
   }
 
   selectEpisodes.addEventListener("change", (e) => {
+    alert("Hello");
     let optionValue = e.target.value;
     console.log("You clicked option " + e.target.value);
     makePageForEpisodes([episodes[optionValue]]);
@@ -95,8 +93,8 @@ function selectAndDisplayEpisode(episodes) {
 
 //level 350
 
-function fetchAllEpisodes() {
-  return fetch("https://api.tvmaze.com/shows/82/episodes")
+function fetchAllEpisodes(id) {
+  return fetch(`https://api.tvmaze.com/shows/${id}/episodes`)
     .then((response) => response.json())
     .then((data) => {
       allEpisodes = data;
@@ -110,12 +108,20 @@ window.onload = setup;
 
 //level 400
 
+function selectAndDisplayAllShows() {
+  let selectShows = document.getElementById("select-shows");
+  selectShows.textContent = "Select show...";
+  const shows = getAllShows();
+  for (let i = 0; i < shows.length; i++) {
+    let option = document.createElement("option");
+    selectShows.appendChild(option);
+    option.value = shows[i].id;
+    option.innerText = shows[i].name;
+  }
 
-
-function selectAndDisplayAllShows (){
-let selectShows = document.getElementById("select-shows");
-selectShows.textContent = "Select show..."
-for (let i = 0; i < episodes.length; i++) {
-  
-}
+  selectShows.addEventListener("change", (e) => {
+    let optionValue = e.target.value;
+    fetchAllEpisodes(optionValue);
+    console.log(optionValue);
+  });
 }

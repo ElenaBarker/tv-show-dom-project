@@ -33,6 +33,13 @@ justify-content: left;
   
 }
 
+#select-shows {
+  border: solid #413543 3px;
+  border-radius: 8px;
+  height: 25px;
+  background-color: #FFEAEA;
+}
+
 
 .episode-card {
   display: flex;
