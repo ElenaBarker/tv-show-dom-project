@@ -71,9 +71,9 @@ function selectAndDisplayEpisode(episodes) {
   //const optionElement = document.createElement("option");
   //optionElement.innerText = "Select an episode";
   //selectEpisodes.appendChild(optionElement);
+  selectEpisodes.innerHTML = "";
   for (let i = 0; i < episodes.length; i++) {
     let option = document.createElement("option");
-
     selectEpisodes.appendChild(option);
     option.value = i;
     option.innerText = `S${episodes[i].season
@@ -93,16 +93,15 @@ function selectAndDisplayEpisode(episodes) {
 
 //level 350
 
-function fetchAllEpisodes(id) {
-  return fetch(`https://api.tvmaze.com/shows/${id}/episodes`)
-    .then((response) => response.json())
-    .then((data) => {
-      allEpisodes = data;
-      makePageForEpisodes(data);
-      searchMovie(data);
-      selectAndDisplayEpisode(data);
-    })
-    .catch((error) => console.log(error));
+async function fetchAllEpisodes(id) {
+  const response = await fetch(`https://api.tvmaze.com/shows/${id}/episodes`);
+
+  let data = await response.json();
+  console.log(data, "data");
+  allEpisodes = data;
+  makePageForEpisodes(data);
+  searchMovie(data);
+  selectAndDisplayEpisode(data);
 }
 window.onload = setup;
 
